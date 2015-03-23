@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Login</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="item_sost">1.Состав ГАК</string>
+    <string name="item_opisanie">2.Описание ДП</string>
+    <string name="item_ruk">3.Руководители</string>
+    <string name="item_org">4.Организации</string>
+    <string name="item_zash">5.Защита дипломов</string>
+    <string name="item_viv">6.Выводы</string>
+    <string name="item_report">Отчет</string>
+    <string name="item_downl">Загрузить</string>
+    <string name="item_save">Сохранить</string>
+    <string name="item_exit">Выход</string>
+
+</resources>
