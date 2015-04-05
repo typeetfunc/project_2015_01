@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 17
+    compileSdkVersion 15
     buildToolsVersion "21.1.2"
 
     defaultConfig {
         applicationId "ru.startandroid.develop.login_project"
-        minSdkVersion 17
-        targetSdkVersion 17
+        minSdkVersion 15
+        targetSdkVersion 15
     }
 
     buildTypes {
@@ -20,4 +20,5 @@ android {
 
 dependencies {
     compile 'com.android.support:support-v4:18.0.0'
+    compile 'com.loopj.android:android-async-http:1.4.5'
 }

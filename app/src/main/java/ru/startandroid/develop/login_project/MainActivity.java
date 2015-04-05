@@ -7,18 +7,10 @@
 */
 package ru.startandroid.develop.login_project;
 
-//import org.ksoap2.SoapEnvelope;
-//import org.ksoap2.serialization.SoapObject;
-//import org.ksoap2.serialization.*;
-//import org.ksoap2.transport.*;
-//import org.ksoap2.transport.ServiceConnection;
-//import org.ksoap2.transport.ServiceConnectionSE;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,7 +18,15 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.widget.Toast;
+import com.loopj.android.http.*;
+import org.apache.http.Header;
 
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 
 public class MainActivity extends Activity {
 	
@@ -35,6 +35,7 @@ public class MainActivity extends Activity {
 	EditText Password;
 	Button Login;
 	String Nm, Psw;
+    String url = "http://109.234.38.29/scripts/client.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,118 +50,85 @@ public class MainActivity extends Activity {
         
         if (isNetworkAvailable())
         {
-        	Inet.setText("");
+        	Inet.setText("Интернет соединение установлено");
         }
         else
         {
-			Inet.setText("���������� ��������� � ��������! ��������� ������� ���������� � ����������.");
+			alert("Error", "Нету интернет соединения");
 		}
-        //������� ������ "���� ���� � �������"
+
         Login.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				
-				if (isNetworkAvailable())
-		        {
-					try {
-						if ((call(Nm, Psw)))
-						{
-							//������� � �������� ����
-							
-							
-							Button swith = (Button)findViewById(R.id.button1);
-					        swith.setOnClickListener(new OnClickListener() {
-					            
-					            @Override
-					            public void onClick(View v) {
-					                // TODO Auto-generated method stub
-					                Intent SecAct = new Intent(getApplicationContext(), SecondActivity.class);
-					                startActivity(SecAct);
-					            }
-					        });							
-							
-						}
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-						
-					
-		        }
-				else
-				{
-					Inet.setText("���������� ��������� � ��������! ��������� ������� ���������� � ����������.");
-				}
-				
+            // TODO Auto-generated method stub
+
+            if (isNetworkAvailable())
+            {
+                try {
+                    AsyncHttpClient client = new AsyncHttpClient();
+
+                    url = url + "?func=is_user"
+                            + "&log="
+                            + Name.getText().toString()
+                            +  "&pass="
+                            + Password.getText().toString();
+                    client.get(url, new AsyncHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                            String res = new String(response);
+                            if (res.equals("fail")){
+                                alert("Error","Неправильный логин/пароль");
+                            } else {
+                                showToast("А ты похоже юзер!");
+                                Intent SecAct = new Intent(getApplicationContext(), SecondActivity.class);
+                                startActivity(SecAct);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                            alert("Error",new String(errorResponse));
+                        }
+                    });
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+
+            }
+            else
+            {
+                Inet.setText("Недоступно подключение к интернету!");
+            }
 			}
 		});
-        
     }
-    
-    //�������� ������� �������� ����������
+
     private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager 
-              = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null;
     }
-    
-    private static final String NAMESPACE = "";
-    private static final String URL = "";
-    private static final String SOAP_ACTION = "http://tempuri.org/Add";
-    private static final String METHOD_NAME = "person";
-    
-    
-   //������ �������� �� �������� ����������������� ������. ����������� ����-����������, ������-��������  
-    boolean call(String a, String b) throws Exception {
-    	boolean result = true;
-   /* 	do
-    	{
-    		
-
-    		SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
-
-    		PropertyInfo name = new PropertyInfo();
-    		name.setName("UserName");
-    		name.setValue(new String(a));
-    		    		
-    		PropertyInfo password = new PropertyInfo();
-    		password.setName("Password");
-    	    password.setValue(b);
-    		/*
-    		request.addProperty(name);
-            request.addProperty(password);
-    		
-    		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-            envelope.dotNet = true;
-    		
-            
-            envelope.setOutputSoapObject(request);
-            HttpTransportSE androidHttpTransport = new AndroidHttpTransport(URL);
-            androidHttpTransport.setXmlVersionTag("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
-     
-            androidHttpTransport.call(SOAP_ACTION, envelope);
-            SoapObject resultsRequestSOAP = (SoapObject) envelope.bodyIn;
-            result = Boolean.parseBoolean(resultsRequestSOAP.getProperty("AddResult").toString());
-    	
-    		}
-    	while (false);*/
-    	return result;
+    protected void showToast(String msg) {
+        Toast toastAdd = Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG);
+        toastAdd.show();
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    private void alert(String title, String msg) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle(title)
+                .setMessage(msg)
+                .setCancelable(false)
+                .setNegativeButton("ОК",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
 }
