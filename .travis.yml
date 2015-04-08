@@ -8,13 +8,11 @@ android:
 before_script:
   - chmod +x gradlew
 after_success:
-  - chmod 600 .travis/travis
-  - eval `ssh-agent -s`
-  - ssh-add .travis/travis
   - mv app/build/outputs/apk apk
   - ls apk
   - git config --global user.email "travis@ci.org"
   - git config --global user.name "travis"
   - git add apk
+  - git remote add deploy https://github.com/typeetfunc/project_2015_01.git
   - git commit -m "deploy"
-  - git push origin master
+  - git push deploy master
