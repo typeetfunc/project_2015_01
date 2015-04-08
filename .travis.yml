@@ -12,6 +12,8 @@ after_success:
   - eval `ssh-agent -s`
   - ssh-add .travis/travis
   - mv app/build/outputs/apk apk
+  - git config --global user.email "travis@ci.org"
+  - git config --global user.name "travis"
   - git add apk
   - git commit -am "deploy"
   - git remote add deploy git@github.com:typeetfunc/project_2015_01.git
