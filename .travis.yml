@@ -16,6 +16,5 @@ after_success:
   - git config --global user.email "travis@ci.org"
   - git config --global user.name "travis"
   - git add apk
-  - git commit -am "deploy"
-  - git remote add deploy git@github.com:typeetfunc/project_2015_01.git
-  - git push deploy master
+  - git commit -m "deploy"
+  - git push origin master
