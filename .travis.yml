@@ -11,11 +11,11 @@ after_success:
   - 
   - git config --global user.email "travis@ci.org"
   - git config --global user.name "travis"
-  - git config credential.helper "store --file=.git/credentials"
-  - echo "https://${GH_TOKEN}:@github.com" > .git/credentials
   - git clone -b deploy "https://github.com/typeetfunc/project_2015_01.git" apk
   - cp -rf app/build/outputs/apk/* apk
   - cd apk
+  - git config credential.helper "store --file=.git/credentials"
+  - echo "https://${GH_TOKEN}:@github.com" > .git/credentials
   - git add .
   - git commit -m "deploy from travis-ci"
   - git push origin deploy
