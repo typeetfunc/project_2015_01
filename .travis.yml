@@ -16,6 +16,7 @@ after_success:
   - echo "https://${GH_TOKEN}:@github.com" > .git/credentials
   - git checkout master
   - git add apk
+  - git remote add deploy "https://github.com/typeetfunc/project_2015_01.git"
   - git commit -m "deploy"
   - git push deploy master
 env:
