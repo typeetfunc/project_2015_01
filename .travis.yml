@@ -21,7 +21,7 @@ after_success:
   - git push deploy deploy
 branches:
   only:
-    - master
+    - master 
 env:
   global:
     secure: VDFChfnxB0X9U/TCmqd4PAmyW1gEqaetqfYqMiChPVeVkNfCrKXpO7s6kdwFGV6iG+5DBiyvVtuKOQwSXCjc551DORD6QegrFX5asU7ZMhFsmF2dtfh0pkjo9AENpcfwrzIx9zu+iqFwQq4SKbAYGBBzuuScg7uuHcZvpUIuCnU=
