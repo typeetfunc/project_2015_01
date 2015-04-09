@@ -15,7 +15,7 @@ after_success:
   - git config credential.helper "store --file=.git/credentials"
   - echo "https://${GH_TOKEN}:@github.com" > .git/credentials
   - git add apk
-  - git remote set-url origin "https://github.com/typeetfunc/project_2015_01.git"
+  - git remote set-url --push origin "https://github.com/typeetfunc/project_2015_01.git"
   - git commit -m "deploy"
   - git push origin master
 env:
