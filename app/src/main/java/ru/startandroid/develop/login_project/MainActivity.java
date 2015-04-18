@@ -12,7 +12,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -74,7 +73,7 @@ public class MainActivity extends Activity {
                             + Password.getText().toString();
                     client.get(url, new AsyncHttpResponseHandler() {
                         @Override
-                        public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                        public void onSuccess(int statusCode, Header[] headers, byte[] response) {//NOPMD
                             String res = new String(response);
                             if ("fail".equals(res)){
                                 alert("Error","Неправильный логин/пароль");
