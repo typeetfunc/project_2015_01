@@ -34,7 +34,6 @@ public class MainActivity extends Activity {
 	EditText Name;
 	EditText Password;
 	Button Login;
-	String Nm, Psw;
     String url = "http://109.234.38.29/scripts/client.php";
 
     @Override
@@ -77,7 +76,7 @@ public class MainActivity extends Activity {
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                             String res = new String(response);
-                            if (res.equals("fail")){
+                            if ("fail".equals(res)){
                                 alert("Error","Неправильный логин/пароль");
                             } else {
                                 showToast("А ты похоже юзер!");
