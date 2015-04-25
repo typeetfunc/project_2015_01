@@ -64,7 +64,7 @@ public class MainActivity extends Activity {
             if (isNetworkAvailable())
             {
                 try {
-                    AsyncHttpClient client = new AsyncHttpClient();
+                    final AsyncHttpClient client = new AsyncHttpClient();
 
                     url = url + "?func=is_user"
                             + "&log="
@@ -74,12 +74,12 @@ public class MainActivity extends Activity {
                     client.get(url, new AsyncHttpResponseHandler() {
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, byte[] response) {//NOPMD
-                            String res = new String(response);
+                            final String res = new String(response);
                             if ("fail".equals(res)){
                                 alert("Error","Неправильный логин/пароль");
                             } else {
                                 showToast("А ты похоже юзер!");
-                                Intent SecAct = new Intent(getApplicationContext(), SecondActivity.class);
+                                final Intent SecAct = new Intent(getApplicationContext(), SecondActivity.class);
                                 startActivity(SecAct);
                             }
                         }
@@ -105,17 +105,17 @@ public class MainActivity extends Activity {
     }
 
     private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
+        final ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        final NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null;
     }
-    protected void showToast(String msg) {
-        Toast toastAdd = Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG);
+    protected void showToast(final String msg) {
+        final Toast toastAdd = Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG);
         toastAdd.show();
     }
-    private void alert(String title, String msg) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+    private void alert(final String title, final String msg) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle(title)
                 .setMessage(msg)
                 .setCancelable(false)
@@ -125,7 +125,7 @@ public class MainActivity extends Activity {
                                 dialog.cancel();
                             }
                         });
-        AlertDialog alert = builder.create();
+        final AlertDialog alert = builder.create();
         alert.show();
     }
 

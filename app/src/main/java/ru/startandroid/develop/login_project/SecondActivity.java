@@ -45,17 +45,6 @@ public class SecondActivity extends Activity {
 		}
 	});
 	
-	
-	
-	
-
-
-	
-	
-	
-	
-	
-	
 	}
 
     @Override
@@ -67,13 +56,4 @@ public class SecondActivity extends Activity {
         return super.onCreateOptionsMenu(menu);
 
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
-    }
-
-
-
-
 }
