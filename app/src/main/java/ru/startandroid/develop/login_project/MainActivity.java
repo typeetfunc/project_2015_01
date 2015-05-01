@@ -1,10 +1,3 @@
-/**
- * ����������� ������������
- * @author ���������� �.�.
- * @version 0.0.1
-
-
-*/
 package ru.startandroid.develop.login_project;
 
 
@@ -66,16 +59,11 @@ public class MainActivity extends Activity {
                 try {
                     final AsyncHttpClient client = new AsyncHttpClient();
 
-                    url = url + "?func=is_user"
-                            + "&log="
-                            + Name.getText().toString()
-                            +  "&pass="
-                            + Password.getText().toString();
+                    url = makeUrl(url, Name.getText().toString(), Password.getText().toString());
                     client.get(url, new AsyncHttpResponseHandler() {
                         @Override
-                        public void onSuccess(int statusCode, Header[] headers, byte[] response) {//NOPMD
-                            final String res = new String(response);
-                            if ("fail".equals(res)){
+                        public void onSuccess(int statusCode, Header[] headers, byte[] response) {//NOPMD                           
+                            if (isUser(response)){
                                 alert("Error","Неправильный логин/пароль");
                             } else {
                                 showToast("А ты похоже юзер!");
@@ -104,7 +92,7 @@ public class MainActivity extends Activity {
 		});
     }
 
-    private boolean isNetworkAvailable() {
+    public boolean isNetworkAvailable() {
         final ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         final NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
@@ -127,6 +115,17 @@ public class MainActivity extends Activity {
                         });
         final AlertDialog alert = builder.create();
         alert.show();
+    }
+    public static String makeUrl(String url, String log, String pass) {
+        return url +  "?func=is_user"
+                + "&log="
+                + log
+                +  "&pass="
+                + pass;
+    }
+    public static boolean isUser(byte [] response) {
+        final String res = new String(response);
+        return !("fail".equals(res));
     }
 
 }
