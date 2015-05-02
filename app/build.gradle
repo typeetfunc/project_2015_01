@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'robolectric'
 apply plugin: 'jacoco'
+apply plugin: 'pmd'
 
 android {
     compileSdkVersion 21
@@ -91,6 +92,21 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebug") {
         testDebug.reports.junitXml.enabled = false
     }
 }
+
+task pmd(type: Pmd) {
+    ruleSetFiles = files("${project.rootDir}/config/pmd/pmd-ruleset.xml")
+    ignoreFailures = true
+    ruleSets = ["java-basic", "java-braces", "java-strings"]
+
+    source 'src'
+    include '**/*.java'  
+
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])    
